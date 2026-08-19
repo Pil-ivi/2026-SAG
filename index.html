@@ -403,7 +403,7 @@ const DEFAULT_SIDEBAR_MENU = [
   {group: "메인 메뉴", items: [
     {icon:"🏠", label:"홈", page:"home"},
     {icon:"📅", label:"To-do List", page:"todo"},
-    {icon:"✅", label:"준비 현황", page:"checklist"},
+    {icon:"✅", label:"Logistics", page:"checklist"},
     {icon:"📋", label:"Agenda", page:"agenda"},
     {icon:"👥", label:"참석자 관리", page:"speakers"},
     {icon:"📊", label:"예산 관리", page:"budget"},
@@ -1026,7 +1026,7 @@ function goPage(page) {
 
 // 사이드바 메뉴에서 페이지 이름을 찾되, 없으면 기본값 사용
 function getPageTitle(page) {
-  const fallback = {home:"홈", todo:"📅 To-do List", checklist:"준비 현황", agenda:"Agenda", speakers:"참석자 관리", budget:"예산 관리", magic:"AI Magic Box", files:"파일 보관함", export:"내보내기", mat_abstract:"📖 Abstract Book", mat_ppt:"🖼 PPT Slides", mat_designs:"🎨 Designs", mat_nametag:"🪪 Name Tag", mat_tabletent:"🪧 Table Tent"};
+  const fallback = {home:"홈", todo:"📅 To-do List", checklist:"Logistics", agenda:"Agenda", speakers:"참석자 관리", budget:"예산 관리", magic:"AI Magic Box", files:"파일 보관함", export:"내보내기", mat_abstract:"📖 Abstract Book", mat_ppt:"🖼 PPT Slides", mat_designs:"🎨 Designs", mat_nametag:"🪪 Name Tag", mat_tabletent:"🪧 Table Tent"};
   for (const grp of SIDEBAR_MENU) {
     for (const item of grp.items) {
       if (item.page === page) {
@@ -5050,7 +5050,7 @@ function pageExport() {
     <div class="card" style="text-align:center;border:2px solid #16a34a;background:linear-gradient(135deg,#F0FDF4,#fff);">
       <div style="font-size:46px;margin-bottom:12px;">📊</div>
       <div style="font-size:17px;font-weight:700;color:#0B1D3F;margin-bottom:6px;">엑셀 통합 다운로드</div>
-      <div style="font-size:12px;color:#64748b;margin-bottom:16px;line-height:1.7;">모든 항목을 시트별로 정리한 단일 엑셀 파일로 다운로드 (.xlsx)<br><strong>요약 · 준비현황 · 연사(이메일/PPT/Abstract) · 일반 참가자 · 예산항목 · 항공숙박 · 지출내역 · To-do · Agenda</strong></div>
+      <div style="font-size:12px;color:#64748b;margin-bottom:16px;line-height:1.7;">모든 항목을 시트별로 정리한 단일 엑셀 파일로 다운로드 (.xlsx)<br><strong>요약 · Logistics · 연사(이메일/PPT/Abstract) · 일반 참가자 · 예산항목 · 항공숙박 · 지출내역 · To-do · Agenda</strong></div>
       <button class="btn btn-p" style="width:100%;justify-content:center;background:linear-gradient(135deg,#16a34a,#15803d);" onclick="doExcel()">📥 통합 엑셀 다운로드</button>
     </div>
     <div class="card" style="text-align:center;"><div style="font-size:46px;margin-bottom:12px;">📝</div><div style="font-size:17px;font-weight:700;color:#0B1D3F;margin-bottom:6px;">보고서 텍스트 생성</div><div style="font-size:12px;color:#64748b;margin-bottom:16px;line-height:1.7;">현재 현황을 공식 보고서 형식으로 생성합니다.</div><button class="btn" style="width:100%;justify-content:center;background:linear-gradient(135deg,#0d9488,#0891b2);color:#fff;border:none;" onclick="doReport()">📄 보고서 텍스트 다운로드</button></div>
@@ -5061,7 +5061,7 @@ function pageExport() {
       <div style="font-size:14px;font-weight:700;color:#0B1D3F;">개별 시트 다운로드</div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:8px;">
-      <button onclick="doExcelSheet('checklist')" class="btn btn-sm" style="justify-content:center;background:#EFF6FF;color:#1B4FA0;border:1px solid #BFDBFE;">✅ 준비 현황</button>
+      <button onclick="doExcelSheet('checklist')" class="btn btn-sm" style="justify-content:center;background:#EFF6FF;color:#1B4FA0;border:1px solid #BFDBFE;">✅ Logistics</button>
       <button onclick="doExcelSheet('speakers')"  class="btn btn-sm" style="justify-content:center;background:#EFF6FF;color:#1B4FA0;border:1px solid #BFDBFE;">👥 연사 명단</button>
       <button onclick="doExcelSheet('attendees')" class="btn btn-sm" style="justify-content:center;background:#EFF6FF;color:#1B4FA0;border:1px solid #BFDBFE;">🪑 일반 참가자</button>
       <button onclick="doExcelSheet('budget')"    class="btn btn-sm" style="justify-content:center;background:#EFF6FF;color:#1B4FA0;border:1px solid #BFDBFE;">📊 예산 항목</button>
@@ -7340,7 +7340,7 @@ window.doReport = () => {
   const pptCollected = SP.filter(s => (matBySp.ppt     || {})[s.id]?.collected).length;
   const absCollected = SP.filter(s => (matBySp.abstract || {})[s.id]?.collected).length;
 
-  let t = `${EVENT.name} 준비 현황 보고\n${"=".repeat(46)}\n기준일: ${ts()} / ${ddayLabel().big}\n\n`;
+  let t = `${EVENT.name} Logistics 현황 보고\n${"=".repeat(46)}\n기준일: ${ts()} / ${ddayLabel().big}\n\n`;
   t += `■ 행사 개요\n`;
   t += `  - 일시: ${FORUM_DATE}\n`;
   t += `  - 장소: ${EVENT.venue || "미정"}\n\n`;
@@ -7405,7 +7405,7 @@ const SM_LABEL = {confirmed:"확정", pending:"대기", cancelled:"취소"};
 function _buildSheets() {
   const today = new Date().toLocaleDateString("ko-KR");
 
-  // 준비 현황
+  // Logistics
   const sheetChecklist = [
     ["카테고리", "항목", "완료여부", "마감일", "우선순위", "첨부파일수"],
     ...CL.map(t => [
@@ -7575,7 +7575,7 @@ window.doExcel = () => {
   const wb = XLSX.utils.book_new();
   const order = [
     ["요약",      sheets.info],
-    ["준비 현황", sheets.checklist],
+    ["Logistics", sheets.checklist],
     ["연사 명단", sheets.speakers],
     ["예산 항목", sheets.budget],
     ["항공·숙박", sheets.travel],
@@ -7604,7 +7604,7 @@ window.doExcelSheet = (kind) => {
   if (typeof XLSX === "undefined") return alert("엑셀 라이브러리 로드 실패. 새로고침 후 다시 시도하세요.");
   const sheets = _buildSheets();
   const map = {
-    checklist: ["준비 현황", sheets.checklist, "준비현황"],
+    checklist: ["Logistics", sheets.checklist, "Logistics"],
     speakers:  ["연사 명단", sheets.speakers,  "연사명단"],
     budget:    ["예산 항목", sheets.budget,    "예산항목"],
     travel:    ["항공·숙박", sheets.travel,    "항공숙박"],
